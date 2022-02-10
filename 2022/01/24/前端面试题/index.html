@@ -24,7 +24,7 @@
 <meta property="og:description" content="工作需要，整理了一些前端面试题。大多数都是一些很常用、很基础的问题。随着经验的增长，以后我会不断完善。 html&#x2F;css1. 会使用flex布局吗？ 请使用flex实现垂直居中12345&amp;#123;  display: flex;  align-items: center;  justify-content: center&amp;#125;  2. flex-grow 属性的用途？该属性规定了在flex">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-01-24T06:15:52.000Z">
-<meta property="article:modified_time" content="2022-01-24T09:02:33.321Z">
+<meta property="article:modified_time" content="2022-02-10T02:45:00.368Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="前端">
 <meta property="article:tag" content="css">
@@ -202,7 +202,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.1k 字
+      1.5k 字
     </span>
   
 
@@ -211,7 +211,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      10 分钟
+      13 分钟
     </span>
   
 
@@ -262,6 +262,8 @@
 
 <h2 id="javaScript"><a href="#javaScript" class="headerlink" title="javaScript"></a>javaScript</h2><h3 id="1-请介绍一下arr-map方法"><a href="#1-请介绍一下arr-map方法" class="headerlink" title="1. 请介绍一下arr.map方法"></a>1. 请介绍一下arr.map方法</h3><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver">arr.map(<span class="hljs-keyword">item</span> =&gt; <span class="hljs-keyword">item</span>.<span class="hljs-built_in">length</span>)<br></code></pre></td></tr></table></figure>
 <p><code>map方法</code> 对数组的每个元素都调用函数，并返回结果数组</p>
+<h3 id="2-了解-Promise-吗-Promise-解决的痛点是什么"><a href="#2-了解-Promise-吗-Promise-解决的痛点是什么" class="headerlink" title="2. 了解 Promise 吗 ? Promise 解决的痛点是什么?"></a>2. 了解 Promise 吗 ? Promise 解决的痛点是什么?</h3><p>Promise 是异步编程的一种解决方案，比传统的解决方案（回调函数）更加合理和更加强大。<br>链式操作减低了编码难度，代码可读性明显增强</p>
+<h3 id="3-Promise的三种状态"><a href="#3-Promise的三种状态" class="headerlink" title="3. Promise的三种状态?"></a>3. Promise的三种状态?</h3><p>pending（进行中）<br>fulfilled（已成功）<br>rejected（已失败）</p>
 <br />
 
 <h2 id="Vue"><a href="#Vue" class="headerlink" title="Vue"></a>Vue</h2><h3 id="1-vue2-和-vue3-的区别？"><a href="#1-vue2-和-vue3-的区别？" class="headerlink" title="1. vue2 和 vue3 的区别？"></a>1. vue2 和 vue3 的区别？</h3><h4 id="1-响应式原理的改变"><a href="#1-响应式原理的改变" class="headerlink" title="1) 响应式原理的改变"></a>1) 响应式原理的改变</h4><p>Vue2响应式原理采用的是<code>defineProperty</code>，而vue3选用的是<code>proxy</code>。这两者前者是修改对象属性的权限标签，后者是代理整个对象。性能上proxy会更加优秀。</p>
@@ -271,6 +273,14 @@
 <h3 id="3-key值的作用"><a href="#3-key值的作用" class="headerlink" title="3. key值的作用"></a>3. key值的作用</h3><p>key的作用主要是为了高效的更新虚拟DOM，vue在patch的过程中通过key值判断两个节点是否是同一个，从而减少Dom操作量</p>
 <h3 id="4-自己开发过-封装过哪些组件？"><a href="#4-自己开发过-封装过哪些组件？" class="headerlink" title="4. 自己开发过/封装过哪些组件？"></a>4. 自己开发过/封装过哪些组件？</h3><h3 id="5-是否会使用uniapp开发App？"><a href="#5-是否会使用uniapp开发App？" class="headerlink" title="5. 是否会使用uniapp开发App？"></a>5. 是否会使用uniapp开发App？</h3><h3 id="6-是否了解vue-ssr？"><a href="#6-是否了解vue-ssr？" class="headerlink" title="6. 是否了解vue ssr？"></a>6. 是否了解vue ssr？</h3><p>CSR全称是 <code>Client Side Rendering</code> ，代表的是客户端渲染。顾名思义，就是在渲染工作在客户端（浏览器）进行，而不是在服务器端进行。举个例子，我们平时用vue，react等框架开发的项目，都是先下载html文档（不是最终的完全的html），然后下载js来执行渲染出页面结果。</p>
 <p>SSR全称是 <code>Server Side Rendering</code>，代表的是服务端渲染。与客户端渲染不同的是，SSR输出的是一个渲染完成的html，整个渲染过程是在服务器端进行的。例如传统的JSP，PHP都是服务端渲染。</p>
+<h3 id="7-项目性能优化？"><a href="#7-项目性能优化？" class="headerlink" title="7. 项目性能优化？"></a>7. 项目性能优化？</h3><ol>
+<li>减少 HTTP 请求</li>
+<li>压缩文件</li>
+<li>图片懒加载<br>响应式图片<br>调整图片大小<br>降低图片质量<br>尽可能利用 CSS3 效果代替图片<br>使用 webp 格式的图片</li>
+<li>使用flex布局</li>
+<li>减少重绘重排<br>重排: 当改变 DOM 元素位置或大小时，会导致浏览器重新生成渲染树，这个过程叫重排。<br>重绘: 当重新生成渲染树后，就要将渲染树每个节点绘制到屏幕，这个过程叫重绘。</li>
+</ol>
+<h4 id="什么操作会导致重排？"><a href="#什么操作会导致重排？" class="headerlink" title="什么操作会导致重排？"></a>什么操作会导致重排？</h4><p>添加或删除可见的 DOM 元素<br>元素位置改变<br>元素尺寸改变<br>内容改变<br>浏览器窗口尺寸改变</p>
 
             </div>
             <hr>
