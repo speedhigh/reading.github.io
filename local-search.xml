@@ -4,6 +4,37 @@
   
   
   <entry>
+    <title>uniapp 笔记</title>
+    <link href="/reading.github.io/2022/04/10/uniapp%E7%AC%94%E8%AE%B0/"/>
+    <url>/reading.github.io/2022/04/10/uniapp%E7%AC%94%E8%AE%B0/</url>
+    
+    <content type="html"><![CDATA[<p>最近公司有一个开发小程序 + app的需求，没办法，只好用uniapp搞一波了。。。。。。<br>在这里做个笔记，方便前期开发的时候翻看</p><h2 id="路由与页面跳转"><a href="#路由与页面跳转" class="headerlink" title="路由与页面跳转"></a>路由与页面跳转</h2><h4 id="navigator组件跳转"><a href="#navigator组件跳转" class="headerlink" title="navigator组件跳转"></a>navigator组件跳转</h4><figure class="highlight ada"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><pre><code class="hljs ada">&lt;navigator <br>  url=<span class="hljs-string">&quot;跳转路径&quot;</span> <br>  open-<span class="hljs-keyword">type</span>=<span class="hljs-string">&quot;跳转方式&quot;</span> <br>  <span class="hljs-keyword">delta</span>=<span class="hljs-string">&quot;当 open-type 为 &#x27;navigateBack&#x27; 时有效，表示回退的层数&quot;</span><br>&gt;<br>  路由跳转<br>&lt;/navigator&gt;<br></code></pre></td></tr></table></figure><p><img src="open-type.png"></p><h4 id="api跳转"><a href="#api跳转" class="headerlink" title="api跳转"></a>api跳转</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk">uni.navigateTo(&#123;<br>    url: <span class="hljs-string">&#x27;/pages/index/index&#x27;</span>      <span class="hljs-regexp">//</span> 默认跳转<br>&#125;)<br></code></pre></td></tr></table></figure><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk">uni.switchTab(&#123;<br>    url: <span class="hljs-string">&#x27;/pages/index/index&#x27;</span>      <span class="hljs-regexp">//</span> tabbar跳转<br>&#125;)<br></code></pre></td></tr></table></figure><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk">uni.redirectTo(&#123;<br>    url: <span class="hljs-string">&#x27;/pages/index/index&#x27;</span>      <span class="hljs-regexp">//</span> 重定向<br>&#125;)<br></code></pre></td></tr></table></figure><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk">uni.navigateBack(&#123;<br>    url: <span class="hljs-string">&#x27;/pages/index/index&#x27;</span>      <span class="hljs-regexp">//</span> 返回上一个页面<br>&#125;)<br></code></pre></td></tr></table></figure><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk">uni.reLaunch(&#123;<br>    url: <span class="hljs-string">&#x27;/pages/index/index&#x27;</span>      <span class="hljs-regexp">//</span> 重加载<br>&#125;)<br></code></pre></td></tr></table></figure><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">getCurrentPages</span><span class="hljs-params">()</span></span>  <span class="hljs-comment">// 获取当前页面栈</span><br></code></pre></td></tr></table></figure><br /><h2 id="数据缓存"><a href="#数据缓存" class="headerlink" title="数据缓存"></a>数据缓存</h2><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">uni.set<span class="hljs-constructor">StorageSync(&#x27;<span class="hljs-params">xxx</span>&#x27;, <span class="hljs-params">this</span>.<span class="hljs-params">productId</span>)</span>  <span class="hljs-comment">// 将 data 存储在本地缓存中指定的 key 中，会覆盖掉原来该 key 对应的内容，这是一个同步接口。</span><br></code></pre></td></tr></table></figure><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">uni.getStorageSync(<span class="hljs-string">&#x27;xxx&#x27;</span>) <span class="hljs-regexp">//</span> 从本地缓存中同步获取指定 key 对应的内容。<br></code></pre></td></tr></table></figure><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">uni.remove<span class="hljs-constructor">Storage(&#123; <span class="hljs-params">key</span>: &#x27;<span class="hljs-params">xxx</span>&#x27; &#125;)</span>  <span class="hljs-comment">//  从本地缓存中异步移除指定 key。</span><br></code></pre></td></tr></table></figure><h2 id="数据请求"><a href="#数据请求" class="headerlink" title="数据请求"></a>数据请求</h2><h4 id="我自己封装了一下"><a href="#我自己封装了一下" class="headerlink" title="我自己封装了一下"></a>我自己封装了一下</h4><p>/until/api.js</p><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-comment">// http://52.193.133.155:8888/muzimed_mobile测试服务器</span><br><span class="hljs-comment">// http://192.168.50.62:8888/muzimed_mobilejsy服务器</span><br>const BASE_URL = &#x27;http:<span class="hljs-comment">//f513z54511.51vip.biz/muzimed_mobile&#x27;</span><br><span class="hljs-comment">// const BASE_URL = &#x27;http://52.193.133.155:8888/muzimed_mobile&#x27;</span><br><br>export const api =<span class="hljs-function"> (<span class="hljs-params">options</span>) =&gt;</span> &#123;<br>  const header_tmp = &#123;<br>  <span class="hljs-string">&quot;Authorization&quot;</span>: uni.get<span class="hljs-constructor">StorageSync(<span class="hljs-string">&quot;token&quot;</span>)</span>,<br>&#x27;Content-Type&#x27;: options.contentType<span class="hljs-operator"> || </span>&#x27;application/json&#x27;<br>  &#125;<br> return <span class="hljs-keyword">new</span> <span class="hljs-constructor">Promise((<span class="hljs-params">resolve</span>, <span class="hljs-params">reject</span>)</span> =&gt; &#123;<br> uni.request(&#123;<br> url: BASE_URL + options.url,<br> <span class="hljs-keyword">method</span>: options.<span class="hljs-keyword">method</span><span class="hljs-operator"> || </span>&#x27;GET&#x27;,<br> data: options.data<span class="hljs-operator"> || </span>&#123;&#125;,<br> header: header_tmp,<br> success:<span class="hljs-function"> (<span class="hljs-params">res</span>) =&gt;</span> &#123;<br> <span class="hljs-keyword">if</span>(res.data.code<span class="hljs-operator"> === </span><span class="hljs-number">20002</span>) &#123;<br> uni.remove<span class="hljs-constructor">Storage(&#123; <span class="hljs-params">key</span>: &#x27;<span class="hljs-params">rate</span>&#x27; &#125;)</span><br> uni.remove<span class="hljs-constructor">Storage(&#123; <span class="hljs-params">key</span>: &#x27;<span class="hljs-params">openid</span>&#x27; &#125;)</span><br> uni.remove<span class="hljs-constructor">Storage(&#123; <span class="hljs-params">key</span>: &#x27;<span class="hljs-params">token</span>&#x27; &#125;)</span><br> uni.remove<span class="hljs-constructor">Storage(&#123; <span class="hljs-params">key</span>: &#x27;<span class="hljs-params">user</span>&#x27; &#125;)</span><br> uni.show<span class="hljs-constructor">Modal(&#123; <span class="hljs-params">title</span>: &#x27;登录时效已过期，请重新登录&#x27;, <span class="hljs-params">icon</span>: &#x27;<span class="hljs-params">fail</span>&#x27;, <span class="hljs-params">showCancel</span>: <span class="hljs-params">false</span>, <span class="hljs-params">success</span>: ()</span> =&gt; &#123;<br> uni.navigate<span class="hljs-constructor">To(&#123; <span class="hljs-params">url</span>: &#x27;<span class="hljs-operator">/</span><span class="hljs-params">pages</span><span class="hljs-operator">/</span><span class="hljs-params">login</span><span class="hljs-operator">/</span><span class="hljs-params">login</span>&#x27; &#125;)</span><br> &#125;&#125;)<br> &#125; <span class="hljs-keyword">else</span> &#123;<br>resolve(res)<br> &#125;<br> &#125;,<br> fail:<span class="hljs-function"> (<span class="hljs-params">err</span>) =&gt;</span> &#123; reject(err) &#125;<br> &#125;)<br> &#125;)<br>&#125;<br></code></pre></td></tr></table></figure><p>/main.js</p><figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs elm"><span class="hljs-keyword">import</span> &#123; api &#125; from &#x27;@/until/api.js&#x27;<br><span class="hljs-type">Vue</span>.proto<span class="hljs-keyword">type</span>.$api = api<br></code></pre></td></tr></table></figure><h4 id="实际使用是这样的"><a href="#实际使用是这样的" class="headerlink" title="实际使用是这样的"></a>实际使用是这样的</h4><p>默认GET请求</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-title">getSwipers</span>(<span class="hljs-params"></span>)</span> &#123;<br>  <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> <span class="hljs-built_in">this</span>.$api(&#123;<span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;/open/home/get_banner&#x27;</span>&#125;)<br>  <span class="hljs-built_in">this</span>.swipers = res.data.data<br>&#125;,<br></code></pre></td></tr></table></figure><p>POST请求</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-title">addCart</span>(<span class="hljs-params"></span>)</span> &#123;<br>  <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> <span class="hljs-built_in">this</span>.$api(&#123;<br>    <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;POST&#x27;</span>,<br>    <span class="hljs-attr">contentType</span>: <span class="hljs-string">&#x27;application/x-www-form-urlencoded&#x27;</span>,<br>    <span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;/cart/post&#x27;</span>,<br>    <span class="hljs-attr">data</span>: &#123; <span class="hljs-attr">userid</span>: uni.getStorageSync(<span class="hljs-string">&#x27;user&#x27;</span>).id, <span class="hljs-attr">productId</span>: <span class="hljs-built_in">this</span>.productId &#125;<br>  &#125;)<br>&#125;<br></code></pre></td></tr></table></figure><br />]]></content>
+    
+    
+    <categories>
+      
+      <category>编程</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>前端</tag>
+      
+      <tag>笔记</tag>
+      
+      <tag>vue</tag>
+      
+      <tag>uniapp</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>封装 echarts 到 vue3/vite 组件，简洁优雅，高效可复用</title>
     <link href="/reading.github.io/2022/01/25/%E5%9C%A8vue3-vite%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8echarts/"/>
     <url>/reading.github.io/2022/01/25/%E5%9C%A8vue3-vite%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8echarts/</url>
@@ -55,11 +86,11 @@
       
       <tag>前端</tag>
       
+      <tag>笔记</tag>
+      
       <tag>css</tag>
       
       <tag>tailwind css</tag>
-      
-      <tag>笔记</tag>
       
     </tags>
     
@@ -88,13 +119,13 @@
       
       <tag>css</tag>
       
+      <tag>vue</tag>
+      
       <tag>面试</tag>
       
       <tag>html</tag>
       
       <tag>javaScript</tag>
-      
-      <tag>vue</tag>
       
     </tags>
     
@@ -121,11 +152,11 @@
       
       <tag>前端</tag>
       
-      <tag>教程</tag>
-      
       <tag>css</tag>
       
       <tag>tailwind css</tag>
+      
+      <tag>教程</tag>
       
       <tag>vue3</tag>
       
