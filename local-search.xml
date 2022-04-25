@@ -4,6 +4,35 @@
   
   
   <entry>
+    <title>浏览器的工作原理(笔记)</title>
+    <link href="/reading.github.io/2022/04/24/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/"/>
+    <url>/reading.github.io/2022/04/24/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/</url>
+    
+    <content type="html"><![CDATA[<p>学会尊重他人的劳动成果，视频来源 <a href="https://www.bilibili.com/video/BV1Dh411J71c?spm_id_from=333.999.0.0">https://www.bilibili.com/video/BV1Dh411J71c?spm_id_from=333.999.0.0</a></p><p>无论是在面试中，或者优化网站性能上，了解浏览器的工作原理都是非常重要的，这里简单介绍一下从输入一个 URL，到页面加载完成的所有步骤。</p><h2 id="DNS-查找"><a href="#DNS-查找" class="headerlink" title="DNS 查找"></a>DNS 查找</h2><p>我们在浏览器地址栏输入 URL 并回车之后，浏览器会进行 DNS 查找，把域名转换为真实的 IP 地址，根据 IP 地址找到提供网站内容的服务器。</p><h2 id="TCP-TLS-https-握手"><a href="#TCP-TLS-https-握手" class="headerlink" title="TCP / TLS(https) 握手"></a>TCP / TLS(https) 握手</h2><p>在找到服务器之后，浏览器会通过 TCP 握手机制跟服务器建立连接，而现在大部分服务器传输都是基于 HTTPS 协议的，那么会多一步 TLS 握手，建立加密的隧道，保证数据传输不被监听和篡改。</p><h2 id="发送-HTTP-请求"><a href="#发送-HTTP-请求" class="headerlink" title="发送 HTTP 请求"></a>发送 HTTP 请求</h2><p>建立了浏览器和服务器之间的链接之后，浏览器会发起 HTTP 或 HTTPS 请求，来获取服务器响应，一般对于网站来说，响应就是服务器会返回 HTML 网页代码。 这里在接收服务器响应的时候，有一个 slow start 机制，受制于 TCP 连接的限制，浏览器会先收到前 14KB 的数据，后续才会慢慢增加传输速度，下载其它文件，所以对于服务器来说，能够在这 14KB 的数据里，完整的展现网站，就变得很重要了。</p><h2 id="浏览器渲染过程"><a href="#浏览器渲染过程" class="headerlink" title="浏览器渲染过程"></a>浏览器渲染过程</h2><p>在收到 HTML 代码之后，浏览器开始渲染网页，这里一共有 5 步，这 5 步统称为关键渲染路径（Critical Rendering Path）。</p><h3 id="一、构建-DOM-树"><a href="#一、构建-DOM-树" class="headerlink" title="一、构建 DOM 树"></a>一、构建 DOM 树</h3><p>第一步是解析 HTML 并构建 DOM 树，DOM 树是 HTML 文档在浏览器中的对象表示，可以使用 JavaScript 来操作它。 浏览器在解析 HTML 的时候是顺序执行的，并且只有一个主线程负责解析，如果遇到 <code>&lt;script /&gt;</code> 标签，那么浏览器会加载 javascript 文件并执行里边的代码，这个时候主线程会暂停解析 HTML，只有 js 代码执行完之后才会继续。对于图片和 CSS 等文件，或者设置了 defer 或 async 的 script 标签，它们不会影响主线程，而是会异步的加载。</p><p>另外，浏览器有一个预扫描（Pre Scanner）线程，它会扫描 HTML 代码，提前把 css 文件、字体以及 js 文件下载下来，加速文件的下载，并且不影响主线程。</p><h3 id="二、构建-CSSOM-树"><a href="#二、构建-CSSOM-树" class="headerlink" title="二、构建 CSSOM 树"></a>二、构建 CSSOM 树</h3><p>第二步是构建 CSSOM 树，CSSOM 是 CSS 在浏览器中的对象表示，也是树状结构。</p><h3 id="三、合并-DOM-和-CSSOM-形成一棵渲染树"><a href="#三、合并-DOM-和-CSSOM-形成一棵渲染树" class="headerlink" title="三、合并 DOM 和 CSSOM 形成一棵渲染树"></a>三、合并 DOM 和 CSSOM 形成一棵渲染树</h3><p>第三步，浏览器会从 DOM 的根节点开始，合并 CSSOM 中的样式到每个节点中，形成一棵渲染树（Render Tree）。</p><h3 id="四、布局"><a href="#四、布局" class="headerlink" title="四、布局"></a>四、布局</h3><p>第四步，生成渲染树之后，浏览器会根据样式，计算每个可见节点（没有设置 display 为 none 的节点）的宽高和位置等，对所有节点进行布局规划。 对于像图片这样的节点，如果没有指定宽高，那么浏览器会先忽略它的大小，在图片加载完成之后，浏览器会根据图片的宽高和位置，再次计算受影响的节点的大小和位置，这个过程叫作回流（Reflow）。</p><h3 id="五、绘制"><a href="#五、绘制" class="headerlink" title="五、绘制"></a>五、绘制</h3><p>第五步，在第一次布局完成之后，浏览器会真正的把节点和节点的样式，例如背景、阴影、边框等绘制到屏幕上，这个要求过程必须要十分的快速，否则会影响动画和交互的性能。 如果之前布局发生了【回流】，也就是加载了像图片这样的节点之后，浏览器还会发生重绘（Repaint），把变化的布局重新绘制到屏幕上。 在绘制期间，也可能会有组合（Composition）发生，因为在渲染节点时，可能会产生新的图层，例如xxx标签，或者设置了 opacity、will-change、transform 等属性的节点，浏览器还得把这些图层组合起来，按正确的堆叠顺序渲染，同样的，回流和重绘操作也会引发重新组合操作。</p><h2 id="交互"><a href="#交互" class="headerlink" title="交互"></a>交互</h2><p>在上面五步完成之后，设置了 defer 或 async 的 JavaScript 文件开始加载并执行，完成之后整个网页就加载完成并可以和用户进行交互了。</p><h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>好了，这个就是浏览器的工作原理，从输入一个 URL 到页面加载完成需要经过：</p><p>DNS 查找  →  TCP/TLS 握手  →  发送 HTTP 请求  →  构建DOM树  →  构建CSSOM树  →  合并DOM 和 CSSOM  →  布局  →  绘制</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>编程</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>前端</tag>
+      
+      <tag>笔记</tag>
+      
+      <tag>浏览器</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>uniapp获取状态栏的高度</title>
     <link href="/reading.github.io/2022/04/22/uniapp%E8%8E%B7%E5%8F%96%E7%8A%B6%E6%80%81%E6%A0%8F%E7%9A%84%E9%AB%98%E5%BA%A6/"/>
     <url>/reading.github.io/2022/04/22/uniapp%E8%8E%B7%E5%8F%96%E7%8A%B6%E6%80%81%E6%A0%8F%E7%9A%84%E9%AB%98%E5%BA%A6/</url>
@@ -22,9 +51,9 @@
       
       <tag>前端</tag>
       
-      <tag>vue</tag>
-      
       <tag>笔记</tag>
+      
+      <tag>vue</tag>
       
       <tag>uniapp</tag>
       
@@ -53,9 +82,9 @@
       
       <tag>前端</tag>
       
-      <tag>vue</tag>
-      
       <tag>笔记</tag>
+      
+      <tag>vue</tag>
       
       <tag>uniapp</tag>
       
@@ -84,9 +113,9 @@
       
       <tag>前端</tag>
       
-      <tag>vue</tag>
-      
       <tag>笔记</tag>
+      
+      <tag>vue</tag>
       
       <tag>uniapp</tag>
       
@@ -148,11 +177,11 @@
       
       <tag>前端</tag>
       
+      <tag>笔记</tag>
+      
       <tag>css</tag>
       
       <tag>tailwind css</tag>
-      
-      <tag>笔记</tag>
       
     </tags>
     
@@ -179,15 +208,15 @@
       
       <tag>前端</tag>
       
+      <tag>vue</tag>
+      
+      <tag>css</tag>
+      
       <tag>面试</tag>
       
       <tag>html</tag>
       
-      <tag>css</tag>
-      
       <tag>javaScript</tag>
-      
-      <tag>vue</tag>
       
     </tags>
     
@@ -216,9 +245,9 @@
       
       <tag>css</tag>
       
-      <tag>教程</tag>
-      
       <tag>tailwind css</tag>
+      
+      <tag>教程</tag>
       
       <tag>vue3</tag>
       
